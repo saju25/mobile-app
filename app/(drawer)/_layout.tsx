@@ -35,7 +35,6 @@ const CustomDrawerContent = (props) => {
         setLoading(false);
       } catch (err) {
         if (err.name === 'AbortError') {
-          console.log('Fetch aborted');
         } else {
           setError('Failed to fetch user data');
           setLoading(false);
@@ -102,7 +101,7 @@ const CustomDrawerContent = (props) => {
       <DrawerItem
         icon={() => <Fontisto name="motorcycle" size={20} color="black" />}
         label="Driver Console"
-        onPress={() => router.push('/(drawer)/DriverConsole')}
+        onPress={() => router.push('/(drawer)/DiverConsole')}
       />
       <View style={{ backgroundColor: 'orange', padding: 10, marginTop: 10 }}>
         <Text style={{ marginLeft: 5, fontWeight: 'bold', color: 'white' }}>Preferences</Text>
@@ -126,7 +125,7 @@ export default function Layout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer screenOptions={{ headerShown: false }} drawerContent={(props) => <CustomDrawerContent {...props} />}>
         <Drawer.Screen
-          name="DriverConsole"
+          name="DiverConsole"
           options={{
             title: "Driver Console",
             headerShown: true,
@@ -136,6 +135,13 @@ export default function Layout() {
           name="BusinessConsole"
           options={{
             title: "Business Console",
+            headerShown: true,
+          }}
+        />
+        <Drawer.Screen
+          name="Shop"
+          options={{
+            title: "Shop",
             headerShown: true,
           }}
         />

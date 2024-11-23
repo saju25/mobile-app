@@ -10,8 +10,7 @@ const Loding = () => {
             const token = await getToken();
             if (token) {
                 router.push('/(drawer)/(tabs)/Home'); 
-                console.log("Hello")
-            }else{
+           }else{
                 router.push('/screen/Login')
             }
         };

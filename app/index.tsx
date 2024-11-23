@@ -6,6 +6,9 @@ import Register from './screen/Register';
 import Home from './(drawer)/(tabs)/Home';
 import { getToken } from '@/axios/Token';
 import Loding from './screen/Loding';
+import Shop from './(drawer)/Shop';
+
+
 
 const Stack = createStackNavigator();
 
@@ -18,8 +21,7 @@ const Index = () => {
         const storedToken = await getToken(); // Await the token retrieval
         setToken(storedToken);
       } catch (error) {
-        console.error('Error fetching token:', error);
-      }
+     }
     };
 
     fetchToken();
@@ -28,10 +30,15 @@ const Index = () => {
   return (
 
  
-    <Stack.Navigator>
+    <Stack.Navigator >
       {token ? (
         // Authenticated User
+  <>
+     
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+        <Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
+       
+  </>
       ) : (
         // Guest User
         <>

@@ -29,10 +29,7 @@ const Register = () => {
                 },
             });
 
-            console.log('Registration Success:', response.data);
-
-            console.log(response.data.token)
-            await setToken(response.data.token);
+           await setToken(response.data.token);
             router.push('/(drawer)/(tabs)/Home'); // Adjust route as needed
         } catch (error) {
             setLoading(false);
@@ -44,8 +41,7 @@ const Register = () => {
                     setErrors({ general: error.response.data.error });
                 }
             } else {
-                console.error('Error:', error.message);
-            }
+           }
         }
     };
 
