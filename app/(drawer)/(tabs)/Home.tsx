@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, Pressable, Dimensions } from 'react-native';
-import Swiper from 'react-native-swiper'; 
-import { shopDataGet } from '@/src/services/Shop';
-import { useNavigation, useRouter } from 'expo-router';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+import { useRouter } from 'expo-router';
+import { shopDataGet } from '@/src/services/ShopDataGet';
+import ShopCard from '@/components/ShopCard';
 
-const { width } = Dimensions.get('window');
+const screenWidth = Dimensions.get('window').width;
+const url = "http://192.168.31.43:8080"; // Your backend URL
 
-const Home = ( ) => {
+const Home = () => {
   const [errors, setErrors] = useState('');
   const [loading, setLoading] = useState(true);
   const [shopData, setShopData] = useState([]);
-  const router = useRouter();
-  const url = "http://192.168.31.43:8080"; // Your backend URL
 
   useEffect(() => {
     const controller = new AbortController();
@@ -19,35 +18,30 @@ const Home = ( ) => {
 
     const fetchShopData = async () => {
       try {
-        const data = await shopDataGet(signal); // Assuming you are passing the signal for aborting request
-
+        const data = await shopDataGet(signal);
+      
         if (!data || data.length === 0) {
           setErrors('No shop data found');
         } else {
-          setShopData(data); // Set the fetched data
+          setShopData(data);
         }
-
         setLoading(false);
       } catch (err) {
-        if (err.name === 'AbortError') {
-          console.log('Request aborted');
-        } else {
-          setErrors('Failed to fetch shop data');
-        }
+        setErrors('Failed to fetch shop data');
         setLoading(false);
       }
     };
 
     fetchShopData();
 
-    return () => controller.abort(); // Cleanup fetch on component unmount
+    return () => controller.abort();
   }, []);
 
   // Show loading state or error if any
   if (loading) {
     return (
       <View style={styles.centered}>
-        <Text style={{textAlign:'center'}}>Loading...</Text>
+        <Text>Loading...</Text>
       </View>
     );
   }
@@ -60,32 +54,31 @@ const Home = ( ) => {
     );
   }
 
+
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Shop Data</Text>
-      <Swiper
-        showsButtons={false}
-        loop={true} // Allow the swiper to loop through slides
-        autoplay={true} // Auto scroll slides after a certain interval
-      >
-        {shopData.map((shop, index) => (
-          <View key={index}>
-            <Pressable
-              onPress={() => {
-                router.push(`/(drawer)/Shop?id=${shop.id}`)
-                router.push('/(drawer)/Shop')
-              }}
-            >
-              <Image 
-                source={{ uri: `${url}/storage/${shop.shop_photo}` }} 
-                style={styles.image} 
-              />
-              <Text>{shop.shop_name || 'Shop Name'}</Text>
-              <Text>{shop.shop_address || 'Shop Address'}</Text>
-            </Pressable>
-          </View>
-        ))}
-      </Swiper>
+      <FlatList
+        style={{ marginTop: 10, marginBottom: 10 }}
+        horizontal={true}
+        data={shopData}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity >
+            <ShopCard
+              screenWidth={screenWidth * 0.8}
+              shop_name={item.shop_name}
+              shop_address={item.shop_address}
+              images={item.shop_photo}
+              shop_review={item.shop_review}
+              shop_review_no={item.shop_review_no}
+              item={item}
+            />
+          </TouchableOpacity>
+        )}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   );
 };
@@ -93,13 +86,10 @@ const Home = ( ) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+  name: {
+    color: 'gray',
+    fontSize: 15,
   },
   image: {
     width: 300,
@@ -110,6 +100,11 @@ const styles = StyleSheet.create({
   centered: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
   },
 });
 

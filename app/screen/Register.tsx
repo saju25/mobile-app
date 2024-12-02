@@ -44,7 +44,7 @@ const Register = () => {
            }
         }
     };
-
+ 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Register</Text>

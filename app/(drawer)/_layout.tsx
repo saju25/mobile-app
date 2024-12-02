@@ -1,16 +1,17 @@
 import { GestureHandlerRootView, Pressable } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
+import { useNavigation } from '@react-navigation/native'; 
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
-import { router, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { AntDesign, Feather, Fontisto, Ionicons } from '@expo/vector-icons';
-import { Image, View, StyleSheet, Text, Switch, ActivityIndicator } from 'react-native';
+import { Image, View, StyleSheet, Text, Switch, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { deleteToken } from '@/axios/Token';
 import { useEffect, useState } from 'react';
-import { getUserData } from '@/src/services/authService'; // User data fetching service
+import { getUserData } from '@/src/services/authService'; 
+
 
 const CustomDrawerContent = (props) => {
   const router = useRouter();
-
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -121,6 +122,8 @@ const CustomDrawerContent = (props) => {
 };
 
 export default function Layout() {
+  const navigation = useNavigation(); 
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer screenOptions={{ headerShown: false }} drawerContent={(props) => <CustomDrawerContent {...props} />}>
@@ -139,12 +142,36 @@ export default function Layout() {
           }}
         />
         <Drawer.Screen
-          name="Shop"
-          options={{
-            title: "Shop",
-            headerShown: true,
-          }}
-        />
+            name="Shop"
+            options={{
+              title: "Shop",
+              headerShown: true,
+              headerLeft: () => (
+                <TouchableOpacity
+                  style={styles.backButton}
+                  onPress={() => navigation.goBack()}  // Ensure that navigation is defined here.
+                >
+                  <AntDesign style={{marginHorizontal:20}} name="arrowleft" size={24} color="black" />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+    
+        <Drawer.Screen
+            name="ProductDetail"
+            options={{
+              title: "Product Detail",
+              headerShown: true,
+              headerLeft: () => (
+                <TouchableOpacity
+                  style={styles.backButton}
+                  onPress={() => navigation.goBack()}  // Ensure that navigation is defined here.
+                >
+                  <AntDesign style={{marginHorizontal:20}} name="arrowleft" size={24} color="black" />
+                </TouchableOpacity>
+              ),
+            }}
+          />
       </Drawer>
     </GestureHandlerRootView>
   );

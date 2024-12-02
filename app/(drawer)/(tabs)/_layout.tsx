@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 export default function TabLayout() {
@@ -20,6 +21,15 @@ export default function TabLayout() {
           ),
         }}
       />
+        <Tabs.Screen
+        name="MyCart"
+        options={{
+          title: 'My Cart',
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialCommunityIcons name={focused ? 'cart-heart' : 'cart-heart'} color={color} size={24}/>
+          ),
+        }}
+      />
       <Tabs.Screen
         name="About"
         options={{
@@ -29,15 +39,8 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="Shop"
-        options={{
-          title: 'Shop',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24}/>
-          ),
-        }}
-      />
+    
+   
     </Tabs>
   );
 }

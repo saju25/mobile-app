@@ -69,7 +69,16 @@ const Login = () => {
             }
         }
     };
+
+    if (loading) {
+        return (
+          <View style={styles.centered}>
+            <Text>Loading...</Text>
+          </View>
+        );
+      }
     
+  
 
     return (
         <View style={styles.container}>
@@ -141,4 +150,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 5,
     },
+    centered: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+      },
 });

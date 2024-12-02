@@ -1,5 +1,5 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import { Image, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
 import { getToken } from '@/axios/Token';
 import { useRouter } from 'expo-router';
 
@@ -28,6 +28,6 @@ const Loding = () => {
   )
 }
 
-export default Loding
+export default Loding;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
